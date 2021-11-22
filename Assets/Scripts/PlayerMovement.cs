@@ -21,7 +21,9 @@ public class PlayerMovement : MonoBehaviour
     private float wallJumpCooldown;
     float horizontalInput;
 
-
+    public GameObject checkAttack;
+    public bool isAttack;
+    public int damagePlayer;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -36,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             Attack();
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Ground")
@@ -76,6 +79,21 @@ public class PlayerMovement : MonoBehaviour
     }
     void Attack()
     {
-         anim.SetTrigger("Attack");
-    }    
+        if(!isAttack)
+        {
+            anim.SetTrigger("Attack");
+            StartCoroutine(colAttack());
+        }
+        
+    } 
+    IEnumerator colAttack()
+    {
+        checkAttack.SetActive(true);
+        isAttack = true;
+        GameManager._instance.TakeDamage(20);
+        yield return new WaitForSeconds(0.6f);
+        checkAttack.SetActive(false);
+        isAttack = false;
+    }
+   
 }
