@@ -1,20 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CameraFollow : MonoBehaviour
 {
+    Vector3 desiredPosition;
+    public Transform target;
 
-    //Follow player
-    [SerializeField] private Transform player;
-    [SerializeField] private float aheadDistance;
-    [SerializeField] private float cameraSpeed;
-    private float lookAhead;
-
-    private void Update()
+    private void OnEnable()
     {
-        //Follow player
-        transform.position = new Vector3(player.position.x + lookAhead, transform.position.y, transform.position.z);
-        lookAhead = Mathf.Lerp(lookAhead, (aheadDistance * player.localScale.x), Time.deltaTime * cameraSpeed);
+        desiredPosition = transform.position - target.position;
+    }
+
+    private void LateUpdate()
+    {
+        if(Vector3.Distance(transform.position, target.position) >= 11)
+        {
+            transform.DOKill();
+            transform.DOMove(target.position + desiredPosition, 0.5f);
+        }    
     }
 }
