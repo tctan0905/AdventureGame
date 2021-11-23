@@ -9,6 +9,7 @@ public class PlayerAttact : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             Debug.Log("Hit Enemy Trigger");
+            other.GetComponent<EnemyController>().takeDamage(20);
         }
     }
 }

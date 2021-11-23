@@ -90,7 +90,6 @@ public class PlayerMovement : MonoBehaviour
     {
         checkAttack.SetActive(true);
         isAttack = true;
-        GameManager._instance.TakeDamage(20);
         yield return new WaitForSeconds(0.6f);
         checkAttack.SetActive(false);
         isAttack = false;
